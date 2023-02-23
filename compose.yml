@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    networks:
+      my_network:
+        ipv4_address: 172.16.238.10
+
+  nodejs:
+    build: .
+    container_name: nodejs
+    deploy:
+      replicas: 15
+    restart: always
+    depends_on:
+      - mongodb
+    environment:
+      MONGODB_URL: mongodb://mongodb:27017/myapp
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./app:/app
+    networks:
+      my_network:
+        ipv4_address: 172.16.238.11
+
+networks:
+  my_network:
+    ipam:
+      config:
+        - subnet: 172.16.238.0/24
