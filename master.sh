@@ -9,4 +9,4 @@ sudo docker build -t express-app /vagrant/app
 
 sudo docker run -dti -p 27017:27017 --network express-network --ip 172.16.238.10 --name mongodb mongo:4
 
-sudo docker service create --name express-api-app --network express-network --replicas 2 -dt -p 3001:3001 express-app
+sudo docker service create --name express-api-app --network express-network --replicas 15 -dt -p 3001:3001 express-app
