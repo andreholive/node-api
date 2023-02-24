@@ -6,29 +6,29 @@ services:
     container_name: mongodb
     restart: always
     networks:
-      my_network:
+      express-mongo:
         ipv4_address: 172.16.238.10
 
-  nodejs:
-    build: .
-    container_name: nodejs
-    deploy:
-      replicas: 15
+  backend:
     restart: always
+    build:
+      context: app
+    volumes:
+      - ./app:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - mongodb
     environment:
       MONGODB_URL: mongodb://mongodb:27017/myapp
-    ports:
-      - '3001:3001'
-    volumes:
-      - ./app:/app
     networks:
-      my_network:
-        ipv4_address: 172.16.238.11
+      - express-mongo
+      - express
+    ports: 
+      - "3001:3001"
 
 networks:
-  my_network:
+  express-mongo:
     ipam:
       config:
         - subnet: 172.16.238.0/24
+  express:

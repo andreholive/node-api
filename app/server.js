@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect('mongodb://127.0.0.1:3002/nodeapi', { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect("mongodb://172.16.238.10:27017/myapp", { useNewUrlParser: true, useUnifiedTopology: true});
 requireDir('./src/models');
 
 app.use('/api', require('./src/routes'))
